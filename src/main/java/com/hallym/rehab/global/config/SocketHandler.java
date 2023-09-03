@@ -20,6 +20,10 @@ public class SocketHandler extends TextWebSocketHandler {
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message)
             throws InterruptedException, IOException {
+
+        log.debug("Received message from session {}: {}", session.getId(), message.getPayload());
+
+
         for (WebSocketSession webSocketSession : sessions) {
             if (webSocketSession.isOpen() && !session.getId().equals(webSocketSession.getId())) {
                 webSocketSession.sendMessage(message);
@@ -29,9 +33,14 @@ public class SocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        System.out.println(session.getLocalAddress());
-        System.out.println("RemoteAddress = " + session.getRemoteAddress());
+        log.info("WebSocket connection established: session ID = {}", session.getId());
         sessions.add(session);
+    }
+
+    @Override
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+        log.info("WebSocket connection closed: session ID = {}, status = {}", session.getId(), status);
+        sessions.remove(session);
     }
 
 }

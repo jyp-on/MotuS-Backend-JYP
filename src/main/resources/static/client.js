@@ -41,11 +41,8 @@ let messages = document.getElementById("messages");
 function initialize() {
     let configuration = {
         "iceServers" : [ {
-            "url" : "stun:stun2.1.google.com:19302"
-        },
-            {urls: "turn:0.peerjs.com:3478",
-            credential: "muazkh",
-            username: "webrtc@live.com"}
+            "url" : "stun:stun.l.google.com:19302"
+        }
         ]
     };
     peerConnection = new RTCPeerConnection(configuration);
@@ -61,7 +58,7 @@ function initialize() {
         localVideo.srcObject = stream; // 현재 내 웹캠을 localVideo에 연결
         peerConnection.addTrack(stream.getVideoTracks()[0], stream);
         // peerConnection.addTrack(stream.getAudioTracks()[0], stream);
-    }).catch(function(err) { console.log(err) });
+    }).catch(function(err) { alert("비디오연결 안됨") });
 
     peerConnection.onicecandidate = function(event) {
         if (event.candidate) {
