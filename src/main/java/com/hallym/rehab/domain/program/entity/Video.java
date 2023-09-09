@@ -44,6 +44,12 @@ public class Video extends BaseTimeEntity {
     @Column(name = "jsonObjectName")
     private String JsonObjectPath; // Json 파일 삭제하기 위한 ObjectPath
 
+    @Column(name = "guideWidth")
+    private Long guideWidth; // 가이드 영상의 Width
+
+    @Column(name = "guideHeight")
+    private Long guideHeight; // 가이드 영상의 Height
+
     @Builder.Default
     @OneToMany(mappedBy = "video", cascade = CascadeType.ALL)
     private List<Video_Member> video_members = new ArrayList<>();
@@ -61,16 +67,4 @@ public class Video extends BaseTimeEntity {
         this.ord = ord;
     }
 
-    public void changeProgramVideo(String GuideVideoURL, String JsonURL,
-                                   String GuideVideoObjectPath, String JsonObjectPath, Long ord) {
-        this.GuideVideoURL = GuideVideoURL;
-        this.JsonURL = JsonURL;
-        this.GuideVideoObjectPath = GuideVideoObjectPath;
-        this.JsonObjectPath = JsonObjectPath;
-        this.ord = ord;
-    }
-
-    public void changeProgram(Program program){ //Program 엔티티 삭제 시 ProgramVideo 객체의 참조도 변경하기 위한 메소드
-        this.program = program;
-    }
 }
